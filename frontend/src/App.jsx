@@ -1,7 +1,11 @@
+import {Header} from "./components/Header/Header.jsx";
+import {Main} from "./components/Main/Main.jsx";
+
 export const App = () => {
     return (
-        <div>
-            Hello
-        </div>
+        <>
+            <Header></Header>
+            <Main></Main>
+        </>
     )
 }

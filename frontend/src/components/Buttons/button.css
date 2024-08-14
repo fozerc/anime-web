@@ -1,12 +1,12 @@
-.button{
-    background: black;
-    border-radius: 2vh;
-    color: white;
-}
-
-.active {
+.button {
     background: white;
     border-radius: 2vh;
     color: black;
     border: 1px solid white;
+}
+
+.active {
+    background: black;
+    border-radius: 2vh;
+    color: white;
 }
