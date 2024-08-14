@@ -38,6 +38,11 @@ DATABASES = {
     }
 }
 
+
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+}
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -48,6 +53,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'anime_app.apps.AnimeAppConfig',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
