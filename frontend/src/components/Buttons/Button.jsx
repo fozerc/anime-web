@@ -1,7 +1,9 @@
 import './button.css';
 
-export const Button = ({children, onClick, isActive}) => {
+export const Button = ({children, isActive, ...props}) => {
     return (
-        <button className={isActive ? 'button active' : 'button'} onClick={onClick}>{children}</button>
+        <button
+            {...props}
+            className={isActive ? 'button active' : 'button'}>{children}</button>
     )
 }

@@ -10,3 +10,7 @@
     border-radius: 2vh;
     color: white;
 }
+
+.button:disabled{
+    cursor: not-allowed;
+}
