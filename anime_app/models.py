@@ -5,7 +5,7 @@ class CharacterModel(models.Model):
     name = models.CharField(max_length=100)
     surname = models.CharField(max_length=100, blank=True, null=True)
     description = models.TextField()
-    image = models.ImageField(upload_to='images/')
+    image = models.ImageField(upload_to='images/', blank=True, null=True)
     date_of_birth = models.DateField(blank=True, null=True)
     date_of_death = models.DateField(blank=True, null=True)
 
