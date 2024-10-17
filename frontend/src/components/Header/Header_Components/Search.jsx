@@ -1,15 +1,16 @@
 import {useAxios} from "../../Hooks/useAxios.js";
-import {useContext, useRef} from "react";
-import {SearchContext, useDataContext} from "./context.js";
+import {useRef} from "react";
+import {useDataContext} from "./context.js";
 
 
 export const Search = () => {
     const {state, sendRequest} = useAxios()
     const inputRef = useRef(null)
-    const [data, setData] = useDataContext()
+    const {data, setData} = useDataContext()
 
     const handleSearch = async (searchTerms) => {
         await sendRequest(`http://localhost:8000/api/global-search?query=${searchTerms}`, 'get')
+        console.log(state.data)
         if (state.data) {
             setData(state.data[0])
         }
@@ -20,6 +21,7 @@ export const Search = () => {
             <form onSubmit={e => {
                 e.preventDefault()
                 const searchTerms = inputRef.current.value
+                handleSearch(searchTerms)
             }}>
                 <label htmlFor="site-seatch">Search your anime or manga here!</label>
                 <input
@@ -30,6 +32,7 @@ export const Search = () => {
                 <button type={"submit"}>Search</button>
                 <div>
                     <p>{data.name}</p>
+                    <p>{data.description}</p>
                 </div>
             </form>
         </div>
