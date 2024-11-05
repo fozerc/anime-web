@@ -29,16 +29,19 @@ ALLOWED_HOSTS = []
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'characters_base',
-        'USER': 'character_role',
-        'PASSWORD': '21436587',
+        'NAME': 'animedb',
+        'USER': 'myanimeuser',
+        'PASSWORD': 'animepass',
         'HOST': 'localhost',
         'PORT': '5432',
     }
 }
 
 REST_FRAMEWORK = {
-    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ]
 }
 
 # Application definition
@@ -53,6 +56,7 @@ INSTALLED_APPS = [
     'anime_app.apps.AnimeAppConfig',
     'django_filters',
     'corsheaders',
+    'rest_framework.authtoken',
 ]
 
 CORS_ALLOWED_ORIGINS = [
@@ -60,7 +64,6 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
-
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -101,6 +104,9 @@ WSGI_APPLICATION = 'characters.wsgi.application'
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
+
+AUTH_USER_MODEL = "anime_app.AnimeUser"
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {

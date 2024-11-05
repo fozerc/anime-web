@@ -1,6 +1,19 @@
 from rest_framework import serializers
 
-from anime_app.models import AnimeModel, CharacterModel, MangaModel
+from anime_app.models import AnimeModel, CharacterModel, MangaModel, AnimeUser
+
+
+class AnimeUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AnimeUser
+        fields = '__all__'
+
+    def create(self, validated_data):
+        user = AnimeUser.objects.create_user(
+            username=validated_data['username'],
+            password=validated_data['password'],
+        )
+        return user
 
 
 class AnimeSerializer(serializers.ModelSerializer):

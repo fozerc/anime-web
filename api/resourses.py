@@ -1,12 +1,20 @@
 from itertools import chain
 
+from django.contrib.auth.models import User
 from django.db.models import Q
 from rest_framework import viewsets, status
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView, CreateAPIView
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
 from anime_app.models import AnimeModel, CharacterModel, MangaModel
-from api.serializers import AnimeSerializer, AnimeCharacterSerializer, MangaSerializer
+from api.serializers import AnimeSerializer, AnimeCharacterSerializer, MangaSerializer, AnimeUserSerializer
+
+
+class RegisterCreateAPIView(CreateAPIView):
+    serializer_class = AnimeUserSerializer
+    permission_classes = [AllowAny, ]
+    queryset = User.objects.all()
 
 
 class AnimeModelViewSet(viewsets.ModelViewSet):
