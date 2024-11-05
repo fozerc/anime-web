@@ -1,5 +1,5 @@
 import {useAxios} from "../../Hooks/useAxios.js";
-import {useRef} from "react";
+import {useEffect, useRef} from "react";
 import {useDataContext} from "./context.js";
 
 
@@ -10,11 +10,13 @@ export const Search = () => {
 
     const handleSearch = async (searchTerms) => {
         await sendRequest(`http://localhost:8000/api/global-search?query=${searchTerms}`, 'get')
-        console.log(state.data)
+    }
+
+    useEffect(() => {
         if (state.data) {
             setData(state.data[0])
         }
-    }
+    }, [state.data, setData]);
 
     return (
         <div>
@@ -31,8 +33,15 @@ export const Search = () => {
                     name="site-seatch" placeholder="Search..."/>
                 <button type={"submit"}>Search</button>
                 <div>
-                    <p>{data.name}</p>
-                    <p>{data.description}</p>
+                    {state.error ? (
+                        <p>{state.error}</p>
+                    ) : (
+                        <>
+                            <p>{data.name}</p>
+                            <p>{data.description}</p>
+                        </>
+                    )
+                    }
                 </div>
             </form>
         </div>

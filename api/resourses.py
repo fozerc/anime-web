@@ -38,10 +38,12 @@ class GlobalSearchListAPIView(ListAPIView):
         characters = CharacterModel.objects.filter(Q(name__icontains=query) | Q(description__icontains=query))
 
         results = list(chain(anime, mangas, characters))
-        return results
+        return
 
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
+        if not queryset:
+            return Response({"What you are looking for is not here"}, status=status.HTTP_404_NOT_FOUND)
         results = self.get_serializers(queryset)
         return Response(results)
 

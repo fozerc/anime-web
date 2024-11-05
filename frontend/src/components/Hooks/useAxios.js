@@ -31,8 +31,15 @@ export const useAxios = () => {
                 updateState(state, response)
             }
         } catch (error) {
-            throw error
+            if (error.response && error.response.data) {
+                setState({
+                    loading: false,
+                    error: error.response.data,
+                    data: null,
+                })
+            }
         }
     }
+    console.log(state)
     return {state, sendRequest}
 }
