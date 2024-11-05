@@ -10,6 +10,7 @@ export const Search = () => {
 
     const handleSearch = async (searchTerms) => {
         await sendRequest(`http://localhost:8000/api/global-search?query=${searchTerms}`, 'get')
+
     }
 
     useEffect(() => {

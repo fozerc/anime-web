@@ -8,15 +8,18 @@ export const useAxios = () => {
         error: null,
     })
 
-    const updateState = (state, response) => {
-        setState({
-            ...state,
-            data: response.data,
-            loading: false,
-        })
-    }
+    // const updateState = (state, response) => {
+    //     console.log("updateState", state, response)
+    //     setState({
+    //         ...state,
+    //         data: response.data,
+    //         error: null,
+    //         loading: false,
+    //     })
+    // }
 
     const sendRequest = async (url, type, data) => {
+        setState({ loading: true, data: null, error: null });
         try {
             let response;
             if (!url) {
@@ -24,14 +27,16 @@ export const useAxios = () => {
             }
             if (type === 'get' || type === 'delete') {
                 response = await axios[type](url)
-                console.log(response.data[0].name)
-                updateState(state, response)
             } else {
                 response = await axios[type](url, data)
-                updateState(state, response)
             }
+            setState({
+                data: response.data,
+                error: null,
+                loading: false,
+            })
         } catch (error) {
-            if (error.response && error.response.data) {
+            if (error.response && error.response.status === 404) {
                 setState({
                     loading: false,
                     error: error.response.data,
