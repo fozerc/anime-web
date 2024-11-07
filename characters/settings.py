@@ -63,6 +63,9 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
 ]
 
+AUTH_USER_MODEL = 'anime_app.AnimeUser'
+
+
 CORS_ALLOW_ALL_ORIGINS = True
 
 MIDDLEWARE = [
