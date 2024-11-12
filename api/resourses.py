@@ -1,7 +1,10 @@
 from itertools import chain
 
+from django.contrib.auth import get_user_model
 from django.db.models import Q
 from rest_framework import viewsets, status
+from rest_framework.authtoken.admin import User
+from rest_framework.authtoken.models import Token
 from rest_framework.generics import ListAPIView, CreateAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
@@ -14,6 +17,12 @@ class RegisterCreateAPIView(CreateAPIView):
     serializer_class = AnimeUserSerializer
     permission_classes = [AllowAny, ]
     queryset = AnimeUser.objects.all()
+
+    def create(self, request, *args, **kwargs):
+        response = super().create(request, *args, **kwargs)
+        user = AnimeUser.objects.get(username=request.data['username'])
+        token, created = Token.objects.get_or_create(user=user)
+        return Response({'Token': token.key}, status=status.HTTP_201_CREATED)
 
 
 class AnimeModelViewSet(viewsets.ModelViewSet):
@@ -49,7 +58,6 @@ class GlobalSearchListAPIView(ListAPIView):
 
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
-        print('aaaaa')
         if not queryset:
             return Response({"What are you looking for is not here"}, status=status.HTTP_404_NOT_FOUND)
         results = self.get_serializers(queryset)

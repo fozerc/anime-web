@@ -4,6 +4,8 @@ from anime_app.models import AnimeModel, CharacterModel, MangaModel, AnimeUser
 
 
 class AnimeUserSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
+
     class Meta:
         model = AnimeUser
         fields = '__all__'
@@ -32,4 +34,3 @@ class MangaSerializer(serializers.ModelSerializer):
     class Meta:
         model = MangaModel
         fields = '__all__'
-
