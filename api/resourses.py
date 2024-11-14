@@ -1,26 +1,23 @@
 from itertools import chain
-
-from django.contrib.auth import get_user_model
 from django.db.models import Q
 from rest_framework import viewsets, status
-from rest_framework.authtoken.admin import User
 from rest_framework.authtoken.models import Token
 from rest_framework.generics import ListAPIView, CreateAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
-from anime_app.models import AnimeModel, CharacterModel, MangaModel, AnimeUser
-from api.serializers import AnimeSerializer, AnimeCharacterSerializer, MangaSerializer, AnimeUserSerializer
+from api.serislizers import AnimeUserSerializer, AnimeSerializer, AnimeCharacterSerializer, MangaSerializer
+from mb_characters_app.models import AnimeUser, AnimeModel, CharacterModel, MangaModel
 
 
-class RegisterCreateAPIView(CreateAPIView):
+class AnimeUserRegistration(CreateAPIView):
     serializer_class = AnimeUserSerializer
-    permission_classes = [AllowAny, ]
     queryset = AnimeUser.objects.all()
+    permission_classes = [AllowAny]
 
     def create(self, request, *args, **kwargs):
         response = super().create(request, *args, **kwargs)
-        user = AnimeUser.objects.get(username=request.data['username'])
+        user = AnimeUser.objects.get(username=response.data['username'])
         token, created = Token.objects.get_or_create(user=user)
         return Response({'Token': token.key}, status=status.HTTP_201_CREATED)
 
