@@ -5,7 +5,7 @@ from django.db import models
 class AnimeUser(AbstractUser):
     name = models.CharField(max_length=30, blank=True, null=True)
     avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)
-    email = models.EmailField(unique=True, )
+    email = models.EmailField()
 
 
 class CharacterModel(models.Model):
