@@ -9,6 +9,13 @@ class AnimeUserSerializer(serializers.ModelSerializer):
         model = AnimeUser
         fields = '__all__'
 
+    # def create(self, validated_data):
+    #     user = AnimeUser.objects.create_user(
+    #         username=validated_data['username'],
+    #         password=validated_data['password']
+    #     )
+    #     return user
+
     def validate(self, attrs):
         username = attrs.get('username')
         email = attrs.get('email')

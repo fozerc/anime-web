@@ -1,1 +1,4 @@
 .idea
+.venv
+/node_modules/
+/anime_site/node_modules/

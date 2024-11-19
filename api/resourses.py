@@ -3,11 +3,14 @@ from django.db.models import Q
 from rest_framework import viewsets, status
 from rest_framework.authtoken.models import Token
 from rest_framework.generics import ListAPIView, CreateAPIView
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
-
+from rest_framework.views import APIView
 from api.serislizers import AnimeUserSerializer, AnimeSerializer, AnimeCharacterSerializer, MangaSerializer
 from mb_characters_app.models import AnimeUser, AnimeModel, CharacterModel, MangaModel
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.authtoken.models import Token
+from rest_framework.response import Response
 
 
 class AnimeUserRegistration(CreateAPIView):
@@ -15,11 +18,23 @@ class AnimeUserRegistration(CreateAPIView):
     queryset = AnimeUser.objects.all()
     permission_classes = [AllowAny]
 
-    def create(self, request, *args, **kwargs):
-        response = super().create(request, *args, **kwargs)
-        user = AnimeUser.objects.get(username=response.data['username'])
-        token, created = Token.objects.get_or_create(user=user)
-        return Response({'Token': token.key}, status=status.HTTP_201_CREATED)
+    # def create(self, request, *args, **kwargs):
+    #     response = super().create(request, *args, **kwargs)
+    #     user = AnimeUser.objects.get(username=response.data['username'])
+    #     token, created = Token.objects.get_or_create(user=user)
+    #     return Response({'Token': token.key}, status=status.HTTP_201_CREATED)
+
+
+class LogoutAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        try:
+            token = Token.objects.get(user=request.user)
+            token.delete()
+            return Response({"details": "Successfully logged out."}, status=status.HTTP_200_OK)
+        except Token.DoesNotExist:
+            return Response({"details": "Token not found."}, status=status.HTTP_404_NOT_FOUND)
 
 
 class AnimeModelViewSet(viewsets.ModelViewSet):
