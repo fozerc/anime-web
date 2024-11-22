@@ -40,3 +40,16 @@ class MangaModel(models.Model):
 
     def str_(self):
         return self.name
+
+
+class WikiModel(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+    theme = models.CharField(max_length=100)
+    image = models.ImageField(upload_to='images/')
+    posts = models.ManyToManyField()
+
+
+class PostModel(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField()
