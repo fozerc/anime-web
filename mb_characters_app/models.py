@@ -42,12 +42,17 @@ class MangaModel(models.Model):
         return self.name
 
 
+"""
+сделать в след раз модели и полностью продумать логику того как будет работать идея с вики и постами в сообществе
+"""
+
+
 class WikiModel(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
     theme = models.CharField(max_length=100)
     image = models.ImageField(upload_to='images/')
-    posts = models.ManyToManyField()
+    # posts = models.ManyToManyField()
 
 
 class PostModel(models.Model):
