@@ -134,4 +134,4 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-TOKEN_EXPIRE_SECONDS = 15
+TOKEN_EXPIRE_SECONDS = 5
