@@ -44,6 +44,7 @@ class MangaModel(models.Model):
 
 """
 сделать в след раз модели и полностью продумать логику того как будет работать идея с вики и постами в сообществе
+прописать вообще все модели и их поля, выделить для этого отдельный день чтобы я смогу всё нормально продумать и т.д 
 """
 
 
@@ -53,6 +54,7 @@ class WikiModel(models.Model):
     theme = models.CharField(max_length=100)
     image = models.ImageField(upload_to='images/')
     # posts = models.ManyToManyField()
+
 
 
 class PostModel(models.Model):
