@@ -65,13 +65,13 @@ class WikiSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class SectionModelSerializer(serializers.ModelSerializer):
+class SectionSerializer(serializers.ModelSerializer):
     class Meta:
         model = SectionModel
         fields = '__all__'
 
 
-class PostModelSerializer(serializers.ModelSerializer):
+class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = PostModel
         fields = '__all__'

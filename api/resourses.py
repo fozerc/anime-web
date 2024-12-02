@@ -6,8 +6,10 @@ from rest_framework.generics import ListAPIView, CreateAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from api.serislizers import AnimeUserSerializer, AnimeSerializer, AnimeCharacterSerializer, MangaSerializer
-from mb_characters_app.models import AnimeUser, AnimeModel, CharacterModel, MangaModel
+from api.serislizers import AnimeUserSerializer, AnimeSerializer, AnimeCharacterSerializer, MangaSerializer, \
+    WikiSerializer, PostSerializer, SectionSerializer
+from mb_characters_app.models import AnimeUser, AnimeModel, CharacterModel, MangaModel, WikiModel, PostModel, \
+    SectionModel
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
@@ -88,3 +90,19 @@ class GlobalSearchListAPIView(ListAPIView):
         return results
 
 
+class WikiModelViewSet(viewsets.ModelViewSet):
+    serializer_class = WikiSerializer
+    permission_classes = []
+    queryset = WikiModel.objects.all()
+
+
+class PostModelViewSet:
+    serializer_class = PostSerializer
+    permission_classes = []
+    queryset = PostModel.objects.all()
+
+
+class SectionModelViewSet(viewsets.ModelViewSet):
+    serializer_class = SectionSerializer
+    permission_classes = []
+    queryset = SectionModel.objects.all()
