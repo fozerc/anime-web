@@ -60,7 +60,7 @@ class PostModel(models.Model):
 class SectionModel(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
-    image = models.ImageField(upload_to='images/')
+    image = models.ImageField(upload_to='section_images/')
     title = models.CharField(max_length=100)
 
 
@@ -70,4 +70,4 @@ class WikiModel(models.Model):
     theme = models.CharField(max_length=100)
     image = models.ImageField(upload_to='images/')
     sections = models.ForeignKey(SectionModel, on_delete=models.CASCADE)
-    community_posts = models.ForeignKey(PostModel, on_delete=models.CASCADE)
+    community_posts = models.ForeignKey(PostModel, on_delete=models.CASCADE, blank=True, null=True)

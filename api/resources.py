@@ -3,6 +3,7 @@ from django.db.models import Q
 from rest_framework import viewsets, status
 from rest_framework.authtoken.models import Token
 from rest_framework.generics import ListAPIView, CreateAPIView
+from rest_framework.parsers import MultiPartParser
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -96,13 +97,14 @@ class WikiModelViewSet(viewsets.ModelViewSet):
     queryset = WikiModel.objects.all()
 
 
-class PostModelViewSet:
+class PostModelViewSet(viewsets.ModelViewSet):
     serializer_class = PostSerializer
     permission_classes = []
     queryset = PostModel.objects.all()
 
 
 class SectionModelViewSet(viewsets.ModelViewSet):
+    parser_classes = [MultiPartParser, ]
     serializer_class = SectionSerializer
     permission_classes = []
     queryset = SectionModel.objects.all()
