@@ -4,7 +4,7 @@ from django.urls import include, path
 from rest_framework import routers
 from rest_framework.authtoken.views import obtain_auth_token
 
-from api.resourses import AnimeModelViewSet, CharacterModelViewSet, MangaModelViewSet, GlobalSearchListAPIView, \
+from api.resources import AnimeModelViewSet, CharacterModelViewSet, MangaModelViewSet, GlobalSearchListAPIView, \
     AnimeUserRegistration, LogoutAPIView
 
 router = routers.DefaultRouter()
