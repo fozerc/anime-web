@@ -69,5 +69,5 @@ class WikiModel(models.Model):
     description = models.TextField()
     theme = models.CharField(max_length=100)
     image = models.ImageField(upload_to='images/')
-    sections = models.ForeignKey(SectionModel)
+    sections = models.ForeignKey(SectionModel, on_delete=models.CASCADE)
     community_posts = models.ForeignKey(PostModel, on_delete=models.CASCADE)

@@ -86,3 +86,5 @@ class GlobalSearchListAPIView(ListAPIView):
                 serializer = MangaSerializer(obj)
             results.append(serializer.data)
         return results
+
+

@@ -1,7 +1,8 @@
 from django.db.models import Q
 from rest_framework import serializers
 
-from mb_characters_app.models import AnimeUser, AnimeModel, CharacterModel, MangaModel
+from mb_characters_app.models import AnimeUser, AnimeModel, CharacterModel, MangaModel, WikiModel, SectionModel, \
+    PostModel
 
 
 # class AnimeUserSerializer(serializers.ModelSerializer):
@@ -55,4 +56,22 @@ class AnimeCharacterSerializer(serializers.ModelSerializer):
 class MangaSerializer(serializers.ModelSerializer):
     class Meta:
         model = MangaModel
+        fields = '__all__'
+
+
+class WikiSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = WikiModel
+        fields = '__all__'
+
+
+class SectionModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SectionModel
+        fields = '__all__'
+
+
+class PostModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PostModel
         fields = '__all__'
