@@ -45,10 +45,23 @@ class MangaModel(models.Model):
 """
 сделать в след раз модели и полностью продумать логику того как будет работать идея с вики и постами в сообществе
 прописать вообще все модели и их поля, выделить для этого отдельный день чтобы я смогу всё нормально продумать и т.д 
-след главной задачей прописать поля для вики с постами и т.д не забыть о том что я ещё хотел грузхить несколько картинок сразу, основная идея заключается в том чтобы я 
-создал вики с постами и сообществами в которых каждый может создавать своё типо амино но лучше.
-фарм комитов
+след главной задачей прописать поля для вики с постами и т.д не забыть о том что я ещё хотел грузхить несколько картинок 
+сразу, основная идея заключается в том чтобы я создал вики с постами и сообществами в которых каждый может создавать
+ своё типо амино но лучше.
 """
+
+
+class PostModel(models.Model):
+    name = models.CharField(max_length=100)
+    section = models.ForeignKey('SectionModel', on_delete=models.CASCADE)
+    description = models.TextField()
+
+
+class SectionModel(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+    image = models.ImageField(upload_to='images/')
+    title = models.CharField(max_length=100)
 
 
 class WikiModel(models.Model):
@@ -56,10 +69,5 @@ class WikiModel(models.Model):
     description = models.TextField()
     theme = models.CharField(max_length=100)
     image = models.ImageField(upload_to='images/')
-    # posts = models.ManyToManyField()
-
-
-
-class PostModel(models.Model):
-    name = models.CharField(max_length=100)
-    description = models.TextField()
+    sections = models.ForeignKey(SectionModel)
+    community_posts = models.ForeignKey(PostModel, on_delete=models.CASCADE)
