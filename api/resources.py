@@ -17,6 +17,7 @@ from rest_framework.response import Response
 
 
 class AnimeUserRegistration(CreateAPIView):
+    parser_classes = [MultiPartParser, ]
     serializer_class = AnimeUserSerializer
     queryset = AnimeUser.objects.all()
     permission_classes = [AllowAny]
@@ -41,18 +42,21 @@ class LogoutAPIView(APIView):
 
 
 class AnimeModelViewSet(viewsets.ModelViewSet):
+    parser_classes = [MultiPartParser, ]
     serializer_class = AnimeSerializer
     queryset = AnimeModel.objects.all()
     permission_classes = []
 
 
 class CharacterModelViewSet(viewsets.ModelViewSet):
+    parser_classes = [MultiPartParser, ]
     serializer_class = AnimeCharacterSerializer
     queryset = CharacterModel.objects.all()
     permission_classes = []
 
 
 class MangaModelViewSet(viewsets.ModelViewSet):
+    parser_classes = [MultiPartParser, ]
     serializer_class = MangaSerializer
     queryset = MangaModel.objects.all()
     permission_classes = []
@@ -92,12 +96,14 @@ class GlobalSearchListAPIView(ListAPIView):
 
 
 class WikiModelViewSet(viewsets.ModelViewSet):
+    parser_classes = [MultiPartParser, ]
     serializer_class = WikiSerializer
     permission_classes = []
     queryset = WikiModel.objects.all()
 
 
 class PostModelViewSet(viewsets.ModelViewSet):
+    parser_classes = [MultiPartParser, ]
     serializer_class = PostSerializer
     permission_classes = []
     queryset = PostModel.objects.all()
