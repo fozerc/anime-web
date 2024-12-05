@@ -80,3 +80,7 @@ class Comment(models.Model):
     post = models.ForeignKey(PostModel, on_delete=models.CASCADE)
     likes = models.IntegerField(default=0)
     dislikes = models.IntegerField(default=0)
+
+"""
+начать реализовывать лайки к коментам с след раз и посмотреть в чате
+"""
