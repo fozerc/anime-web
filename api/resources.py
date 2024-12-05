@@ -7,6 +7,8 @@ from rest_framework.parsers import MultiPartParser
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+
+from api.permissions import IsOwnerOrReadOnly
 from api.serislizers import AnimeUserSerializer, AnimeSerializer, AnimeCharacterSerializer, MangaSerializer, \
     WikiSerializer, PostSerializer, SectionSerializer
 from mb_characters_app.models import AnimeUser, AnimeModel, CharacterModel, MangaModel, WikiModel, PostModel, \
@@ -17,16 +19,15 @@ from rest_framework.response import Response
 
 
 class AnimeUserRegistration(CreateAPIView):
-    parser_classes = [MultiPartParser, ]
     serializer_class = AnimeUserSerializer
     queryset = AnimeUser.objects.all()
     permission_classes = [AllowAny]
 
-    # def create(self, request, *args, **kwargs):
-    #     response = super().create(request, *args, **kwargs)
-    #     user = AnimeUser.objects.get(username=response.data['username'])
-    #     token, created = Token.objects.get_or_create(user=user)
-    #     return Response({'Token': token.key}, status=status.HTTP_201_CREATED)
+    def create(self, request, *args, **kwargs):
+        response = super().create(request, *args, **kwargs)
+        user = AnimeUser.objects.get(username=response.data['username'])
+        token, created = Token.objects.get_or_create(user=user)
+        return Response({'Token': token.key}, status=status.HTTP_201_CREATED)
 
 
 class LogoutAPIView(APIView):
@@ -110,7 +111,7 @@ class PostModelViewSet(viewsets.ModelViewSet):
 
 
 class SectionModelViewSet(viewsets.ModelViewSet):
-    parser_classes = [MultiPartParser, ]
+    parser_classes = [MultiPartParser]
     serializer_class = SectionSerializer
-    permission_classes = []
+    permission_classes = [AllowAny, IsOwnerOrReadOnly]
     queryset = SectionModel.objects.all()

@@ -62,6 +62,7 @@ class SectionModel(models.Model):
     description = models.TextField()
     image = models.ImageField(upload_to='section_images/')
     title = models.CharField(max_length=100)
+    user = models.ForeignKey(AnimeUser, on_delete=models.CASCADE)
 
 
 class WikiModel(models.Model):
