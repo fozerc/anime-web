@@ -104,7 +104,7 @@ class WikiModelViewSet(viewsets.ModelViewSet):
 
 
 class PostModelViewSet(viewsets.ModelViewSet):
-    parser_classes = [MultiPartParser, ]
+    parser_classes = [MultiPartParser, IsOwnerOrReadOnly]
     serializer_class = PostSerializer
     permission_classes = []
     queryset = PostModel.objects.all()

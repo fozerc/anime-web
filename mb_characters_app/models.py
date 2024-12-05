@@ -72,3 +72,11 @@ class WikiModel(models.Model):
     image = models.ImageField(upload_to='images/')
     sections = models.ForeignKey(SectionModel, on_delete=models.CASCADE)
     community_posts = models.ForeignKey(PostModel, on_delete=models.CASCADE, blank=True, null=True)
+
+
+class Comment(models.Model):
+    user = models.ForeignKey(AnimeUser, on_delete=models.CASCADE)
+    text = models.TextField()
+    post = models.ForeignKey(PostModel, on_delete=models.CASCADE)
+    likes = models.IntegerField(default=0)
+    dislikes = models.IntegerField(default=0)
