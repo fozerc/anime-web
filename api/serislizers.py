@@ -2,7 +2,7 @@ from django.db.models import Q
 from rest_framework import serializers
 
 from mb_characters_app.models import AnimeUser, AnimeModel, CharacterModel, MangaModel, WikiModel, SectionModel, \
-    PostModel
+    PostModel, Comment, CommentReaction
 
 
 # class AnimeUserSerializer(serializers.ModelSerializer):
@@ -74,4 +74,16 @@ class SectionSerializer(serializers.ModelSerializer):
 class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = PostModel
+        fields = '__all__'
+
+
+class CommentsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = '__all__'
+
+
+class CommentsReactionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CommentReaction
         fields = '__all__'
