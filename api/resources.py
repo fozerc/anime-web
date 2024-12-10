@@ -2,6 +2,7 @@ from itertools import chain
 from django.db.models import Q
 from rest_framework import viewsets, status
 from rest_framework.authtoken.models import Token
+from rest_framework.decorators import action
 from rest_framework.generics import ListAPIView, CreateAPIView
 from rest_framework.parsers import MultiPartParser
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -10,9 +11,9 @@ from rest_framework.views import APIView
 
 from api.permissions import IsOwnerOrReadOnly
 from api.serislizers import AnimeUserSerializer, AnimeSerializer, AnimeCharacterSerializer, MangaSerializer, \
-    WikiSerializer, PostSerializer, SectionSerializer
+    WikiSerializer, PostSerializer, SectionSerializer, CommentSerializer
 from mb_characters_app.models import AnimeUser, AnimeModel, CharacterModel, MangaModel, WikiModel, PostModel, \
-    SectionModel
+    SectionModel, Comment, CommentReaction
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
@@ -104,9 +105,9 @@ class WikiModelViewSet(viewsets.ModelViewSet):
 
 
 class PostModelViewSet(viewsets.ModelViewSet):
-    parser_classes = [MultiPartParser, IsOwnerOrReadOnly]
+    parser_classes = [MultiPartParser]
     serializer_class = PostSerializer
-    permission_classes = []
+    permission_classes = [IsOwnerOrReadOnly]
     queryset = PostModel.objects.all()
 
 
@@ -115,3 +116,37 @@ class SectionModelViewSet(viewsets.ModelViewSet):
     serializer_class = SectionSerializer
     permission_classes = [AllowAny, IsOwnerOrReadOnly]
     queryset = SectionModel.objects.all()
+
+
+class CommentModelViewSet(viewsets.ModelViewSet):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+    permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
+
+    @action(detail=True, methods=['post'])
+    def like(self, request, pk=None):
+        comment = self.get_object()
+        reaction, created = CommentReaction.objects.get_or_create(
+            comment=comment, user=request.user
+        )
+        if reaction.is_like:
+            reaction.delete()
+            return Response({"details": "Like has been removed"}, status=status.HTTP_200_OK)
+        else:
+            reaction.is_like = True
+            reaction.save()
+            return Response({"details": "Like has been added"}, status=status.HTTP_200_OK)
+
+    @action(detail=True, methods=['post'])
+    def dislike(self, request, pk=None):
+        comment = self.get_object()
+        reaction, created = CommentReaction.objects.get_or_create(
+            comment=comment, user=request.user
+        )
+        if reaction.is_dislike:
+            reaction.delete()
+            return Response({"details": "Dislike has been removed"}, status=status.HTTP_200_OK)
+        else:
+            reaction.is_dislike = True
+            reaction.save()
+            return Response({"details": "Dislike has been added"}, status=status.HTTP_200_OK)
