@@ -124,7 +124,7 @@ class CommentModelViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
 
     @action(detail=True, methods=['post'])
-    def like(self, request, pk=None):
+    def like(self, request, pk=None, url_path='like'):
         comment = self.get_object()
         reaction, created = CommentReaction.objects.get_or_create(
             comment=comment, user=request.user
@@ -138,7 +138,7 @@ class CommentModelViewSet(viewsets.ModelViewSet):
             return Response({"details": "Like has been added"}, status=status.HTTP_200_OK)
 
     @action(detail=True, methods=['post'])
-    def dislike(self, request, pk=None):
+    def dislike(self, request, pk=None, url_path='dislike'):
         comment = self.get_object()
         reaction, created = CommentReaction.objects.get_or_create(
             comment=comment, user=request.user
