@@ -77,10 +77,21 @@ class WikiModel(models.Model):
 class Comment(models.Model):
     user = models.ForeignKey(AnimeUser, on_delete=models.CASCADE)
     text = models.TextField()
-    post = models.ForeignKey(PostModel, on_delete=models.CASCADE)
-    likes = models.IntegerField(default=0)
-    dislikes = models.IntegerField(default=0)
+    post = models.ForeignKey(PostModel, on_delete=models.CASCADE, related_name='comments')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
-"""
-начать реализовывать лайки к коментам с след раз и посмотреть в чате
-"""
+    def likes_count(self):
+        return self.reactions.filter(is_liked=True).count()
+
+    def dislikes_count(self):
+        return self.reactions.filter(is_liked=False).count()
+
+
+class CommentReaction(models.Model):
+    user = models.ForeignKey(AnimeUser, on_delete=models.CASCADE, related_name='comment_reactions')
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name='reactions')
+    is_like = models.BooleanField()
+
+    class Meta:
+        unique_together = (('user', 'comment'),)
