@@ -1,5 +1,8 @@
+from datetime import datetime
+
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.utils import timezone
 
 
 class AnimeUser(AbstractUser):
@@ -42,15 +45,6 @@ class MangaModel(models.Model):
         return self.name
 
 
-"""
-сделать в след раз модели и полностью продумать логику того как будет работать идея с вики и постами в сообществе
-прописать вообще все модели и их поля, выделить для этого отдельный день чтобы я смогу всё нормально продумать и т.д 
-след главной задачей прописать поля для вики с постами и т.д не забыть о том что я ещё хотел грузхить несколько картинок 
-сразу, основная идея заключается в том чтобы я создал вики с постами и сообществами в которых каждый может создавать
- своё типо амино но лучше.
-"""
-
-
 class PostModel(models.Model):
     name = models.CharField(max_length=100)
     section = models.ForeignKey('SectionModel', on_delete=models.CASCADE)
@@ -78,7 +72,7 @@ class Comment(models.Model):
     user = models.ForeignKey(AnimeUser, on_delete=models.CASCADE)
     text = models.TextField()
     post = models.ForeignKey(PostModel, on_delete=models.CASCADE, related_name='comments')
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
 
     def likes_count(self):
@@ -91,7 +85,8 @@ class Comment(models.Model):
 class CommentReaction(models.Model):
     user = models.ForeignKey(AnimeUser, on_delete=models.CASCADE, related_name='comment_reactions')
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name='reactions')
-    is_like = models.BooleanField()
+    is_like = models.BooleanField(blank=True, null=True)
+    is_dislike = models.BooleanField(blank=True, null=True)
 
     class Meta:
         unique_together = (('user', 'comment'),)

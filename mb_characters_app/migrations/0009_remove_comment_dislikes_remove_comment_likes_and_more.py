@@ -3,10 +3,10 @@
 import django.db.models.deletion
 from django.conf import settings
 from django.db import migrations, models
+from django.utils import timezone
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('mb_characters_app', '0008_comment'),
     ]
@@ -23,7 +23,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='comment',
             name='created_at',
-            field=models.DateTimeField(auto_now_add=True, default=0),
+            field=models.DateTimeField(auto_now_add=True, default=timezone.now),  # Исправлено на timezone.now
             preserve_default=False,
         ),
         migrations.AddField(
@@ -34,15 +34,19 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='comment',
             name='post',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='comments', to='mb_characters_app.postmodel'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='comments',
+                                    to='mb_characters_app.postmodel'),
         ),
         migrations.CreateModel(
             name='CommentReaction',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('is_like', models.BooleanField()),
-                ('comment', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='reactions', to='mb_characters_app.comment')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='comment_reactions', to=settings.AUTH_USER_MODEL)),
+                ('comment', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='reactions',
+                                              to='mb_characters_app.comment')),
+                ('user',
+                 models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='comment_reactions',
+                                   to=settings.AUTH_USER_MODEL)),
             ],
             options={
                 'unique_together': {('user', 'comment')},

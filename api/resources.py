@@ -1,12 +1,9 @@
 from itertools import chain
 from django.db.models import Q
 from rest_framework import viewsets, status
-from rest_framework.authtoken.models import Token
 from rest_framework.decorators import action
 from rest_framework.generics import ListAPIView, CreateAPIView
-from rest_framework.parsers import MultiPartParser
 from rest_framework.permissions import AllowAny, IsAuthenticated
-from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from api.permissions import IsOwnerOrReadOnly
@@ -14,7 +11,6 @@ from api.serislizers import AnimeUserSerializer, AnimeSerializer, AnimeCharacter
     WikiSerializer, PostSerializer, SectionSerializer, CommentSerializer
 from mb_characters_app.models import AnimeUser, AnimeModel, CharacterModel, MangaModel, WikiModel, PostModel, \
     SectionModel, Comment, CommentReaction
-from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 
@@ -44,21 +40,18 @@ class LogoutAPIView(APIView):
 
 
 class AnimeModelViewSet(viewsets.ModelViewSet):
-    parser_classes = [MultiPartParser, ]
     serializer_class = AnimeSerializer
     queryset = AnimeModel.objects.all()
     permission_classes = []
 
 
 class CharacterModelViewSet(viewsets.ModelViewSet):
-    parser_classes = [MultiPartParser, ]
     serializer_class = AnimeCharacterSerializer
     queryset = CharacterModel.objects.all()
     permission_classes = []
 
 
 class MangaModelViewSet(viewsets.ModelViewSet):
-    parser_classes = [MultiPartParser, ]
     serializer_class = MangaSerializer
     queryset = MangaModel.objects.all()
     permission_classes = []
@@ -98,21 +91,18 @@ class GlobalSearchListAPIView(ListAPIView):
 
 
 class WikiModelViewSet(viewsets.ModelViewSet):
-    parser_classes = [MultiPartParser, ]
     serializer_class = WikiSerializer
     permission_classes = []
     queryset = WikiModel.objects.all()
 
 
 class PostModelViewSet(viewsets.ModelViewSet):
-    parser_classes = [MultiPartParser]
     serializer_class = PostSerializer
     permission_classes = [IsOwnerOrReadOnly]
     queryset = PostModel.objects.all()
 
 
 class SectionModelViewSet(viewsets.ModelViewSet):
-    parser_classes = [MultiPartParser]
     serializer_class = SectionSerializer
     permission_classes = [AllowAny, IsOwnerOrReadOnly]
     queryset = SectionModel.objects.all()
@@ -121,7 +111,7 @@ class SectionModelViewSet(viewsets.ModelViewSet):
 class CommentModelViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
-    permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
+    permission_classes = [IsAuthenticated]
 
     @action(detail=True, methods=['post'])
     def like(self, request, pk=None, url_path='like'):
